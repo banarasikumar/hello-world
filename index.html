@@ -9,6 +9,17 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
 
+        /* Force GPU Hardware Acceleration */
+        canvas, .nebula, .salon-name, .magic-btn, .magic-btn::before, .content-container, .hello-world, .subtitle {
+            will-change: transform, opacity, filter, box-shadow;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            perspective: 1000px;
+            -webkit-perspective: 1000px;
+        }
+
         :root {
             --primary: #e6c875;
             --text-main: #ffffff;
