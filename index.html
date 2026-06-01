@@ -7,12 +7,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Be Well Family Salon - Coming Soon</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
 
         :root {
-            --primary: #d4af37; /* Gold */
+            --primary: #e6c875; /* Premium Gold */
+            --primary-glow: rgba(230, 200, 117, 0.6);
             --text-main: #ffffff;
-            --text-muted: #e0e0e0;
+            --text-muted: #d0d0d0;
         }
 
         body, html {
@@ -39,16 +40,26 @@
             z-index: 1;
         }
 
+        /* Canvas for Button Particles */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+        }
+
         /* Colorful Nebulas using CSS */
         .nebula {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
+            filter: blur(120px);
             z-index: 0;
             animation: pulse 20s infinite alternate ease-in-out, drift 50s infinite linear;
         }
 
-        /* Vibrant cosmic colors: Purples, Pinks, Cyan, Deep Blues */
         .n1 { width: 70vw; height: 70vw; background: radial-gradient(circle, #4a00e0, transparent 60%); top: -20%; left: -20%; opacity: 0.5; }
         .n2 { width: 60vw; height: 60vw; background: radial-gradient(circle, #8e2de2, transparent 60%); bottom: -10%; right: -10%; animation-delay: -5s; opacity: 0.6; }
         .n3 { width: 50vw; height: 50vw; background: radial-gradient(circle, #ff007f, transparent 60%); top: 30%; left: 40%; animation-duration: 35s; opacity: 0.4;}
@@ -77,23 +88,40 @@
             text-align: center;
             padding: 2rem;
             box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.1); 
-            backdrop-filter: blur(2px); /* Slight blur to pop text over stars */
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
             animation: fadeIn 3s ease-out forwards;
-            pointer-events: none; /* Let clicks pass through to canvas */
+            pointer-events: none; /* Let clicks pass through to canvas for warp */
         }
 
         /* Typography */
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3.5rem, 8vw, 7rem);
-            margin: 0 0 1rem 0;
-            font-weight: 600;
-            text-shadow: 0 0 30px rgba(255,255,255,0.4);
-            background: linear-gradient(135deg, #ffffff 0%, #ffe259 50%, #ffa751 100%);
+        .hello-world {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.8rem, 1.5vw, 1.5rem);
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            animation: floatText 8s infinite ease-in-out reverse;
+        }
+
+        .salon-name {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 10vw, 10rem);
+            line-height: 1.1;
+            margin: 0 0 1.5rem 0;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, #fff, #ffe259, #ff007f, #00c6ff, #fff);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: floatText 8s infinite ease-in-out;
+            animation: shine 5s linear infinite, floatText 8s infinite ease-in-out;
+            text-shadow: 0 0 50px rgba(255, 226, 89, 0.4);
+            padding: 0 20px;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
 
         @keyframes floatText {
@@ -102,69 +130,76 @@
         }
 
         .subtitle {
-            font-size: clamp(1.5rem, 3vw, 3rem);
-            color: #ffffff;
-            font-weight: 400;
-            margin-bottom: 2rem;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
-        }
-
-        p {
-            font-size: clamp(1rem, 1.8vw, 1.5rem);
+            font-size: clamp(1.2rem, 2vw, 2rem);
+            color: var(--text-main);
+            font-weight: 300;
+            margin-bottom: 4rem;
+            max-width: 900px;
             line-height: 1.8;
-            color: var(--text-muted);
-            margin-bottom: 3.5rem;
-            max-width: 800px;
             text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            padding: 0 20px;
+            animation: fadeIn 3s ease-out 1s forwards;
+            opacity: 0;
         }
 
-        .highlight {
-            color: var(--primary);
-            font-weight: 600;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        /* Irresistible Button */
+        .magic-btn-container {
+            position: relative;
+            pointer-events: auto; /* Enable interaction for button */
         }
 
-        /* Decorative Line */
-        .divider {
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ffe259, #ff007f, transparent);
-            margin: 0 auto 2rem;
-            animation: expandWidth 2s ease-out 1s forwards;
-            box-shadow: 0 0 15px #ff007f;
-        }
-
-        @keyframes expandWidth {
-            to { width: clamp(200px, 30vw, 400px); }
-        }
-
-        /* Glowing Badge */
-        .badge {
-            display: inline-block;
-            padding: 18px 50px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .magic-btn {
+            appearance: none;
+            border: none;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.0));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 22px 65px;
+            border-radius: 60px;
             color: #fff;
-            font-size: clamp(1rem, 1.2vw, 1.2rem);
-            font-weight: 500;
-            letter-spacing: 4px;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            font-weight: 600;
+            letter-spacing: 5px;
             text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 198, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(255,255,255,0.1), inset 0 0 20px rgba(255,255,255,0.05);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: auto; /* Enable hover on badge */
-            cursor: pointer;
-            backdrop-filter: blur(10px);
+            animation: pulseGlow 2s infinite alternate;
         }
 
-        .badge:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 198, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
-            border-color: rgba(0, 198, 255, 0.8);
-            letter-spacing: 6px;
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 30px rgba(0, 198, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+            100% { box-shadow: 0 0 70px rgba(255, 0, 127, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.4); text-shadow: 0 0 20px rgba(255,255,255,1); border-color: rgba(255,255,255,0.9); }
+        }
+
+        .magic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: skewX(-20deg);
+            animation: buttonShimmer 2.5s infinite;
+        }
+
+        @keyframes buttonShimmer {
+            0% { left: -100%; }
+            20%, 100% { left: 200%; }
+        }
+
+        .magic-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            letter-spacing: 8px;
+        }
+
+        .magic-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.9);
         }
 
         @keyframes fadeIn {
@@ -177,14 +212,15 @@
             position: absolute;
             bottom: 2rem;
             font-size: 0.9rem;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 4px;
             text-transform: uppercase;
             animation: pulseHint 3s infinite;
+            pointer-events: none;
         }
 
         @keyframes pulseHint {
-            0%, 100% { opacity: 0.3; }
+            0%, 100% { opacity: 0.2; }
             50% { opacity: 0.8; }
         }
 
@@ -199,20 +235,25 @@
 
     <!-- Starfield Canvas -->
     <canvas id="universe"></canvas>
+    
+    <!-- Particle Canvas for Button Explosions -->
+    <canvas id="particleCanvas"></canvas>
 
     <!-- Content -->
     <div class="content-container">
-        <h1>Hello World!</h1>
-        <div class="divider"></div>
-        <div class="subtitle">Welcome to <span class="highlight">Be Well Family Salon</span>.</div>
-        <p>Our web application is currently under development. We're creating something beautiful for you.</p>
-        <div class="badge">Stay tuned!</div>
+        <div class="hello-world">Hello World</div>
+        <div class="salon-name">Be Well Family Salon</div>
+        <div class="subtitle">Our web application is currently under development. <br>We're creating something beautiful for you.</div>
         
-        <div class="hint">Click & Hold to Warp</div>
+        <div class="magic-btn-container">
+            <button class="magic-btn" id="magicBtn">Ignite The Glow</button>
+        </div>
+        
+        <div class="hint">Click & Hold Background to Warp</div>
     </div>
 
-    <!-- Universe Animation Script -->
     <script>
+        // --- Universe Background ---
         const canvas = document.getElementById('universe');
         const ctx = canvas.getContext('2d');
 
@@ -222,6 +263,11 @@
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
+            
+            // Also resize particle canvas
+            const pCanvas = document.getElementById('particleCanvas');
+            pCanvas.width = width;
+            pCanvas.height = height;
         }
 
         window.addEventListener('resize', resize);
@@ -237,7 +283,6 @@
                 this.y = (Math.random() - 0.5) * height;
                 this.z = Math.random() * width;
                 this.pz = this.z;
-                // Add cosmic colors to stars
                 const colors = ['#ffffff', '#ffffff', '#ffe259', '#00c6ff', '#ff007f', '#8e2de2'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
@@ -259,9 +304,7 @@
                 let py = (this.y / this.pz) * height + height / 2;
 
                 this.pz = this.z;
-
-                // Make closer stars thicker
-                let radius = width / this.z * 1.2;
+                let radius = width / this.z * 1.5;
 
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;
@@ -272,7 +315,6 @@
             }
         }
 
-        // Initialize stars
         const numStars = 1000;
         for (let i = 0; i < numStars; i++) {
             stars.push(new Star());
@@ -283,14 +325,10 @@
         let targetSpeed = baseSpeed;
 
         function animate() {
-            // Dark fade to create light trails
             ctx.fillStyle = 'rgba(3, 0, 8, 0.3)';
             ctx.fillRect(0, 0, width, height);
 
-            // Smooth speed transitions
             speed += (targetSpeed - speed) * 0.05;
-
-            // Add dynamic wave to speed for organic feel
             let time = Date.now() * 0.001;
             let dynamicSpeed = speed + (targetSpeed === baseSpeed ? Math.sin(time) * 0.5 : 0);
 
@@ -304,12 +342,95 @@
 
         animate();
 
-        // Interactive Warp Speed on click
-        const container = document.querySelector('.content-container');
-        window.addEventListener('mousedown', () => targetSpeed = 25);
+        window.addEventListener('mousedown', (e) => {
+            if(e.target.id !== 'magicBtn') targetSpeed = 30;
+        });
         window.addEventListener('mouseup', () => targetSpeed = baseSpeed);
-        window.addEventListener('touchstart', () => targetSpeed = 25);
+        window.addEventListener('touchstart', (e) => {
+            if(e.target.id !== 'magicBtn') targetSpeed = 30;
+        });
         window.addEventListener('touchend', () => targetSpeed = baseSpeed);
+
+
+        // --- Button Particle Explosion ---
+        const pCanvas = document.getElementById('particleCanvas');
+        const pCtx = pCanvas.getContext('2d');
+        let btnParticles = [];
+
+        class ButtonParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                // Explode outwards 360 degrees
+                const angle = Math.random() * Math.PI * 2;
+                // Random strong velocity
+                const velocity = Math.random() * 20 + 8;
+                this.vx = Math.cos(angle) * velocity;
+                this.vy = Math.sin(angle) * velocity;
+                this.life = 1.0;
+                this.decay = Math.random() * 0.02 + 0.015;
+                const colors = ['#00c6ff', '#ff007f', '#ffe259', '#ffffff'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.size = Math.random() * 5 + 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vx *= 0.92; // Friction slows them down
+                this.vy *= 0.92;
+                this.vy += 0.4;  // Gravity pulls them down slightly
+                this.life -= this.decay;
+            }
+
+            draw() {
+                pCtx.save();
+                pCtx.globalAlpha = Math.max(0, this.life);
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fillStyle = this.color;
+                pCtx.fill();
+                pCtx.shadowBlur = 15;
+                pCtx.shadowColor = this.color;
+                pCtx.restore();
+            }
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, width, height);
+            
+            for (let i = btnParticles.length - 1; i >= 0; i--) {
+                let p = btnParticles[i];
+                p.update();
+                p.draw();
+                if (p.life <= 0) {
+                    btnParticles.splice(i, 1);
+                }
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        const magicBtn = document.getElementById('magicBtn');
+        
+        magicBtn.addEventListener('click', (e) => {
+            const rect = magicBtn.getBoundingClientRect();
+            // Try to spawn particles exactly where the user clicked, fallback to button center
+            const clickX = e.clientX || rect.left + rect.width / 2;
+            const clickY = e.clientY || rect.top + rect.height / 2;
+            
+            // Spawn 80 particles per click for a massive satisfying explosion
+            for(let i = 0; i < 80; i++) {
+                btnParticles.push(new ButtonParticle(clickX, clickY));
+            }
+            
+            // Create a shockwave pop effect on the button itself
+            magicBtn.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                magicBtn.style.transform = '';
+            }, 150);
+        });
 
     </script>
 </body>
