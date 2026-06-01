@@ -32,7 +32,7 @@
             width: 100%;
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            background-color: #030008;
+            background-color: #010004; /* Extremely dark cosmic background */
             color: var(--text-main);
             overflow: hidden;
             position: relative;
@@ -40,7 +40,7 @@
             -webkit-user-select: none;
         }
 
-        /* Canvas for Stars */
+        /* Canvas for Stars and Planets */
         #universe {
             position: absolute;
             top: 0;
@@ -50,27 +50,31 @@
             z-index: 1;
         }
 
-        /* Colorful Nebulas using CSS */
+        /* Colorful Galactic Nebulas using CSS */
         .nebula {
             position: absolute;
             border-radius: 50%;
-            filter: blur(120px);
+            filter: blur(140px);
             z-index: 0;
-            animation: pulse 20s infinite alternate ease-in-out, drift 50s infinite linear;
+            animation: pulse 25s infinite alternate ease-in-out, drift 60s infinite linear;
         }
 
-        .n1 { width: 70vw; height: 70vw; background: radial-gradient(circle, #4a00e0, transparent 60%); top: -20%; left: -20%; opacity: 0.5; }
-        .n2 { width: 60vw; height: 60vw; background: radial-gradient(circle, #8e2de2, transparent 60%); bottom: -10%; right: -10%; animation-delay: -5s; opacity: 0.6; }
-        .n3 { width: 50vw; height: 50vw; background: radial-gradient(circle, #ff007f, transparent 60%); top: 30%; left: 40%; animation-duration: 35s; opacity: 0.4;}
-        .n4 { width: 80vw; height: 80vw; background: radial-gradient(circle, #00c6ff, transparent 60%); top: 10%; right: 20%; animation-delay: -15s; opacity: 0.3;}
+        /* Increased galaxy vibrance and quantity */
+        .n1 { width: 70vw; height: 70vw; background: radial-gradient(circle, #4a00e0, transparent 55%); top: -20%; left: -20%; opacity: 0.6; }
+        .n2 { width: 60vw; height: 60vw; background: radial-gradient(circle, #8e2de2, transparent 55%); bottom: -10%; right: -10%; animation-delay: -5s; opacity: 0.6; }
+        .n3 { width: 50vw; height: 50vw; background: radial-gradient(circle, #ff007f, transparent 55%); top: 30%; left: 40%; animation-duration: 35s; opacity: 0.5;}
+        .n4 { width: 80vw; height: 80vw; background: radial-gradient(circle, #00c6ff, transparent 55%); top: 10%; right: 20%; animation-delay: -15s; opacity: 0.4;}
+        .n5 { width: 90vw; height: 90vw; background: radial-gradient(circle, #00ff87, transparent 50%); bottom: 10%; left: -30%; animation-delay: -8s; opacity: 0.3;}
+        .n6 { width: 85vw; height: 85vw; background: radial-gradient(circle, #ff512f, transparent 50%); top: -10%; right: -20%; animation-duration: 40s; opacity: 0.3;}
+        .n7 { width: 60vw; height: 60vw; background: radial-gradient(circle, #dd2476, transparent 50%); bottom: -20%; right: 30%; animation-delay: -2s; opacity: 0.4;}
 
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.2; }
-            100% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(1.3); opacity: 0.6; }
         }
         @keyframes drift {
             0% { transform: rotate(0deg) translate(0, 0); }
-            50% { transform: rotate(180deg) translate(100px, 50px); }
+            50% { transform: rotate(180deg) translate(150px, 80px); }
             100% { transform: rotate(360deg) translate(0, 0); }
         }
 
@@ -87,7 +91,7 @@
             text-align: center;
             padding: 2rem;
             box-sizing: border-box;
-            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
             animation: fadeIn 3s ease-out forwards;
             pointer-events: none;
         }
@@ -115,7 +119,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shine 5s linear infinite, floatText 8s infinite ease-in-out;
-            text-shadow: 0 4px 20px rgba(255, 226, 89, 0.2);
+            text-shadow: 0 4px 30px rgba(255, 226, 89, 0.3);
             padding: 0 20px;
             max-width: 90vw;
         }
@@ -227,13 +231,16 @@
     </style>
 </head>
 <body>
-    <!-- Background Nebulas -->
+    <!-- Background Nebulas (More CSS Galaxies) -->
     <div class="nebula n1"></div>
     <div class="nebula n2"></div>
     <div class="nebula n3"></div>
     <div class="nebula n4"></div>
+    <div class="nebula n5"></div>
+    <div class="nebula n6"></div>
+    <div class="nebula n7"></div>
 
-    <!-- Starfield Canvas -->
+    <!-- Starfield, Planets, and Comets Canvas -->
     <canvas id="universe"></canvas>
 
     <!-- Content -->
@@ -250,12 +257,14 @@
     </div>
 
     <script>
-        // --- Universe Background (Realistic 3D) ---
+        // --- Universe Background (Realistic 3D with Planets & Comets) ---
         const canvas = document.getElementById('universe');
         const ctx = canvas.getContext('2d');
 
         let width, height;
         let stars = [];
+        let planets = [];
+        let comets = [];
 
         function resize() {
             width = canvas.width = window.innerWidth;
@@ -265,24 +274,24 @@
         window.addEventListener('resize', resize);
         resize();
 
+        // --- Class: Star ---
         class Star {
             constructor() {
                 this.reset();
             }
 
             reset() {
-                // Spread stars out far beyond viewport so rotation doesn't reveal empty corners
                 this.x = (Math.random() - 0.5) * width * 3;
                 this.y = (Math.random() - 0.5) * height * 3;
                 this.z = Math.random() * width;
                 this.pz = this.z;
                 
-                // Realistic star colors (White, faint blue, faint yellow, faint pink)
-                const colors = ['#ffffff', '#ffffff', '#e0f7fa', '#fff9c4', '#ffebee', '#f3e5f5'];
+                // Extremely colorful stars
+                const colors = ['#ffffff', '#00c6ff', '#ff007f', '#ffe259', '#00ff87', '#b92b27', '#8a2387', '#e0f7fa'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 
-                // Base size variation
-                this.baseSize = Math.random() * 1.5 + 0.5;
+                // Random variation in size for super-bright distant stars
+                this.baseSize = Math.random() * 2 + 0.5;
             }
 
             update(speed) {
@@ -296,29 +305,24 @@
             }
 
             draw() {
-                // Perspective division
                 let sx = (this.x / this.z) * width + width / 2;
                 let sy = (this.y / this.z) * height + height / 2;
                 
                 let px = (this.x / this.pz) * width + width / 2;
                 let py = (this.y / this.pz) * height + height / 2;
 
-                // Dynamic size based on depth (closer = larger)
                 let size = (width / this.z) * this.baseSize * 0.5;
-                if (size > 10) size = 10;
+                if (size > 15) size = 15;
                 
-                // Depth cue fading (far away = dim, closer = bright)
                 let opacity = 1 - (this.z / width);
                 if (opacity < 0) opacity = 0;
                 if (opacity > 1) opacity = 1;
 
                 ctx.globalAlpha = opacity;
                 
-                // Calculate distance traveled to determine if we should draw a motion streak or a perfect dot
                 let dist = Math.sqrt(Math.pow(sx - px, 2) + Math.pow(sy - py, 2));
                 
-                if (dist > size) {
-                    // Motion blur streak when traveling fast
+                if (dist > size * 1.5) {
                     ctx.beginPath();
                     ctx.strokeStyle = this.color;
                     ctx.lineWidth = size;
@@ -327,23 +331,173 @@
                     ctx.lineTo(sx, sy);
                     ctx.stroke();
                 } else {
-                    // Realistic glowing dots when moving slowly
                     ctx.beginPath();
                     ctx.fillStyle = this.color;
                     ctx.arc(sx, sy, size, 0, Math.PI * 2);
                     ctx.fill();
                 }
-                
-                ctx.globalAlpha = 1.0; // reset
+                ctx.globalAlpha = 1.0;
             }
         }
 
-        const numStars = 1200; // Increased star count for more density
+        // --- Class: Planet ---
+        class Planet {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = (Math.random() - 0.5) * width * 4;
+                this.y = (Math.random() - 0.5) * height * 4;
+                this.z = initial ? Math.random() * width * 1.5 : width * 1.5;
+                this.pz = this.z;
+                
+                // Vibrant planet colors
+                const hues = [200, 320, 50, 15, 280, 140];
+                let h = hues[Math.floor(Math.random() * hues.length)];
+                this.color1 = `hsl(${h}, 90%, 65%)`;
+                this.color2 = `hsl(${h}, 100%, 15%)`; // Dark shadow side
+                
+                this.baseSize = Math.random() * 40 + 20; // Massive scale
+                this.hasRings = Math.random() > 0.6; // 40% chance of rings
+                this.ringAngle = Math.random() * Math.PI;
+            }
+
+            update(speed) {
+                this.pz = this.z;
+                // Planets move slightly slower to simulate parallax and distance
+                this.z -= speed * 0.7; 
+                if (this.z < 1) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                let sx = (this.x / this.z) * width + width / 2;
+                let sy = (this.y / this.z) * height + height / 2;
+                let size = (width / this.z) * this.baseSize * 0.1;
+
+                if (size > 400) size = 400; // Cap planet size
+                if (size < 0.5) return;
+
+                let opacity = 1 - (this.z / (width * 1.5));
+                if (opacity < 0) opacity = 0;
+                if (opacity > 1) opacity = 1;
+
+                ctx.globalAlpha = opacity;
+                
+                // Draw rings behind (partial) and front (we simulate this loosely)
+                if (this.hasRings) {
+                    ctx.save();
+                    ctx.translate(sx, sy);
+                    ctx.rotate(this.ringAngle);
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, size * 2.5, size * 0.5, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = this.color1;
+                    ctx.globalAlpha = opacity * 0.4;
+                    ctx.lineWidth = size * 0.2;
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                // Draw Planet Sphere with 3D gradient
+                let gradient = ctx.createRadialGradient(sx - size*0.3, sy - size*0.3, size*0.1, sx, sy, size);
+                gradient.addColorStop(0, this.color1);
+                gradient.addColorStop(1, this.color2);
+
+                ctx.beginPath();
+                ctx.fillStyle = gradient;
+                ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.globalAlpha = 1.0;
+            }
+        }
+
+        // --- Class: Comet ---
+        class Comet {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.active = false;
+                this.timer = Math.random() * 800 + 200; // Time before spawning
+            }
+
+            spawn() {
+                this.active = true;
+                // Spawn randomly on top or side edges
+                if(Math.random() > 0.5) {
+                    this.x = Math.random() * width;
+                    this.y = -100;
+                } else {
+                    this.x = -100;
+                    this.y = Math.random() * height;
+                }
+                this.vx = (Math.random() - 0.5) * 15 + 10;
+                this.vy = Math.random() * 10 + 5;
+                this.size = Math.random() * 3 + 2;
+                this.length = Math.random() * 150 + 100;
+                
+                const cometColors = ['#00c6ff', '#ff007f', '#ffffff', '#ffe259'];
+                this.color = cometColors[Math.floor(Math.random() * cometColors.length)];
+            }
+
+            update() {
+                if (!this.active) {
+                    this.timer--;
+                    if (this.timer <= 0) this.spawn();
+                    return;
+                }
+                
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.y > height + this.length || this.x > width + this.length) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                if (!this.active) return;
+                
+                let tailX = this.x - (this.vx * this.length * 0.1);
+                let tailY = this.y - (this.vy * this.length * 0.1);
+
+                let gradient = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
+                // The comet head is solid, fading to transparent tail
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                ctx.beginPath();
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = this.size;
+                ctx.lineCap = 'round';
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(tailX, tailY);
+                ctx.stroke();
+            }
+        }
+
+        // --- Initialization ---
+        // Massive amount of stars for density
+        const numStars = 2500; 
         for (let i = 0; i < numStars; i++) {
             stars.push(new Star());
         }
 
-        let baseSpeed = 1.0; // Slower base speed for calm realism
+        // Add 12 planets drifting in the deep background
+        for (let i = 0; i < 12; i++) {
+            planets.push(new Planet());
+        }
+
+        // Add 3 comets that occasionally shoot past
+        for (let i = 0; i < 3; i++) {
+            comets.push(new Comet());
+        }
+
+        let baseSpeed = 1.0; 
         let speed = baseSpeed;
         let targetSpeed = baseSpeed;
         
@@ -351,28 +505,39 @@
         let rotationAngle = 0;
 
         function animate() {
-            // Draw pure dark background to simulate true empty space
-            ctx.fillStyle = '#030008';
+            // Very faint trails for stars, but mostly clear space
+            ctx.fillStyle = 'rgba(1, 0, 4, 0.4)';
             ctx.fillRect(0, 0, width, height);
 
-            // Gentle acceleration when held, but fast deceleration when released
-            let smoothingFactor = isButtonPressed ? 0.005 : 0.04;
+            let smoothingFactor = isButtonPressed ? 0.003 : 0.04;
             speed += (targetSpeed - speed) * smoothingFactor; 
 
-            // Subtly rotate the entire universe like a galaxy
-            rotationAngle += 0.0003;
+            rotationAngle += 0.0002;
 
             ctx.save();
+            // Center the origin for galaxy rotation
             ctx.translate(width / 2, height / 2);
             ctx.rotate(rotationAngle);
             ctx.translate(-width / 2, -height / 2);
 
+            // Draw Planets first (behind stars)
+            planets.forEach(planet => {
+                planet.update(speed);
+                planet.draw();
+            });
+
+            // Draw Stars
             stars.forEach(star => {
                 star.update(speed);
                 star.draw();
             });
-
             ctx.restore();
+
+            // Draw comets (overlay, not affected by slow galaxy rotation)
+            comets.forEach(comet => {
+                comet.update();
+                comet.draw();
+            });
 
             requestAnimationFrame(animate);
         }
@@ -381,10 +546,9 @@
 
         const magicBtn = document.getElementById('magicBtn');
         
-        // Handle Button Hold for Warp Speed Acceleration
         function handleButtonDown(e) {
             isButtonPressed = true;
-            targetSpeed = 50; // Increased slightly to show off 3D streak effect
+            targetSpeed = 40; 
             
             magicBtn.style.transform = 'scale(0.99)';
             setTimeout(() => {
@@ -400,10 +564,7 @@
 
         magicBtn.addEventListener('mousedown', handleButtonDown);
         window.addEventListener('mouseup', handleButtonUp);
-
-        magicBtn.addEventListener('touchstart', (e) => {
-            handleButtonDown(e.touches[0]);
-        });
+        magicBtn.addEventListener('touchstart', (e) => { handleButtonDown(e.touches[0]); });
         window.addEventListener('touchend', handleButtonUp);
 
     </script>
