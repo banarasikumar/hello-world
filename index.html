@@ -203,14 +203,14 @@
         }
 
         .magic-btn:hover {
-            transform: scale(1.05) translateY(-3px);
-            background: rgba(255, 255, 255, 0.2);
-            letter-spacing: 5px;
+            transform: scale(1.02) translateY(-1px);
+            background: rgba(255, 255, 255, 0.15);
+            letter-spacing: 4px;
         }
 
         .magic-btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.9);
+            transform: scale(0.99) translateY(0);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.8);
         }
 
         @keyframes fadeIn {
@@ -340,8 +340,8 @@
             ctx.fillStyle = 'rgba(3, 0, 8, 0.3)';
             ctx.fillRect(0, 0, width, height);
 
-            // Cinematic, gradual exponential smoothing for warp acceleration/deceleration
-            speed += (targetSpeed - speed) * 0.012; 
+            // Extremely slow, micro acceleration for a very gentle speed increase
+            speed += (targetSpeed - speed) * 0.003; 
 
             let time = Date.now() * 0.001;
             let dynamicSpeed = speed + (targetSpeed === baseSpeed ? Math.sin(time) * 0.5 : 0);
@@ -419,7 +419,7 @@
         // Handle Button Hold for Warp Speed Acceleration & Click Explosion
         function handleButtonDown(e) {
             isButtonPressed = true;
-            targetSpeed = 120; // High target for smooth, gradual acceleration
+            targetSpeed = 40; // Much lower max speed so it displays smaller and calmer
 
             const rect = magicBtn.getBoundingClientRect();
             // Try to spawn particles exactly where the user clicked, fallback to button center
@@ -431,8 +431,8 @@
                 btnParticles.push(new ButtonParticle(clickX, clickY));
             }
             
-            // Very subtle and elegant press effect
-            magicBtn.style.transform = 'scale(0.95)';
+            // Extremely micro press effect (mostly relying on CSS :active now)
+            magicBtn.style.transform = 'scale(0.99)';
             setTimeout(() => {
                 if(!isButtonPressed) magicBtn.style.transform = '';
             }, 150);
