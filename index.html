@@ -8,10 +8,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
 
         :root {
-            --primary: #d4af37; /* Elegant Gold */
-            --bg-color: #1a1a1a;
+            --primary: #d4af37; /* Gold */
             --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --text-muted: #e0e0e0;
         }
 
         body, html {
@@ -20,55 +19,51 @@
             width: 100%;
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            background: var(--bg-color);
+            background-color: #030008;
             color: var(--text-main);
             overflow: hidden;
             position: relative;
         }
 
-        /* Animated Background Gradient */
-        .bg-animation {
+        /* Canvas for Stars */
+        #universe {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, rgba(26, 26, 26, 1) 50%);
-            animation: rotateBg 25s linear infinite;
-            z-index: 0;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
         }
 
-        @keyframes rotateBg {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Floating particles */
-        .particle {
+        /* Colorful Nebulas using CSS */
+        .nebula {
             position: absolute;
             border-radius: 50%;
-            background: rgba(212, 175, 55, 0.1);
-            filter: blur(20px);
-            animation: float 8s infinite ease-in-out;
+            filter: blur(100px);
             z-index: 0;
+            animation: pulse 20s infinite alternate ease-in-out, drift 50s infinite linear;
         }
 
-        .p1 { width: 250px; height: 250px; top: 5%; left: 10%; animation-delay: 0s; }
-        .p2 { width: 180px; height: 180px; bottom: 15%; right: 5%; animation-delay: 2s; }
-        .p3 { width: 120px; height: 120px; top: 35%; right: 20%; animation-delay: 4s; }
+        /* Vibrant cosmic colors: Purples, Pinks, Cyan, Deep Blues */
+        .n1 { width: 70vw; height: 70vw; background: radial-gradient(circle, #4a00e0, transparent 60%); top: -20%; left: -20%; opacity: 0.5; }
+        .n2 { width: 60vw; height: 60vw; background: radial-gradient(circle, #8e2de2, transparent 60%); bottom: -10%; right: -10%; animation-delay: -5s; opacity: 0.6; }
+        .n3 { width: 50vw; height: 50vw; background: radial-gradient(circle, #ff007f, transparent 60%); top: 30%; left: 40%; animation-duration: 35s; opacity: 0.4;}
+        .n4 { width: 80vw; height: 80vw; background: radial-gradient(circle, #00c6ff, transparent 60%); top: 10%; right: 20%; animation-delay: -15s; opacity: 0.3;}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-40px) scale(1.1); }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.7; }
+        }
+        @keyframes drift {
+            0% { transform: rotate(0deg) translate(0, 0); }
+            50% { transform: rotate(180deg) translate(100px, 50px); }
+            100% { transform: rotate(360deg) translate(0, 0); }
         }
 
-        /* Full Page Glassmorphism Container */
-        .full-page-container {
+        /* Content Container */
+        .content-container {
             position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            z-index: 2;
             width: 100vw;
             height: 100vh;
             display: flex;
@@ -78,172 +73,240 @@
             text-align: center;
             padding: 2rem;
             box-sizing: border-box;
-            animation: fadeInContainer 1.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeInContainer {
-            to { opacity: 1; }
+            background: rgba(0, 0, 0, 0.1); 
+            backdrop-filter: blur(2px); /* Slight blur to pop text over stars */
+            animation: fadeIn 3s ease-out forwards;
+            pointer-events: none; /* Let clicks pass through to canvas */
         }
 
         /* Typography */
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 5vw; /* Scales with screen width */
+            font-size: clamp(3.5rem, 8vw, 7rem);
             margin: 0 0 1rem 0;
             font-weight: 600;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
+            text-shadow: 0 0 30px rgba(255,255,255,0.4);
+            background: linear-gradient(135deg, #ffffff 0%, #ffe259 50%, #ffa751 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: slideDown 1.5s ease-out 0.5s forwards;
-            opacity: 0;
-            transform: translateY(-30px);
+            animation: floatText 8s infinite ease-in-out;
         }
 
-        @keyframes slideDown {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         .subtitle {
-            font-size: 2vw; /* Scales with screen width */
+            font-size: clamp(1.5rem, 3vw, 3rem);
             color: #ffffff;
             font-weight: 400;
             margin-bottom: 2rem;
-            animation: fadeIn 1.5s ease-out 0.7s forwards;
-            opacity: 0;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
 
         p {
-            font-size: 1.2vw;
+            font-size: clamp(1rem, 1.8vw, 1.5rem);
             line-height: 1.8;
             color: var(--text-muted);
             margin-bottom: 3.5rem;
             max-width: 800px;
-            animation: fadeIn 1.5s ease-out 0.9s forwards;
-            opacity: 0;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
 
         .highlight {
             color: var(--primary);
-            font-weight: 500;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
         }
 
         /* Decorative Line */
         .divider {
             width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffe259, #ff007f, transparent);
             margin: 0 auto 2rem;
-            animation: expandWidth 1.5s ease-out 1.2s forwards;
+            animation: expandWidth 2s ease-out 1s forwards;
+            box-shadow: 0 0 15px #ff007f;
         }
 
         @keyframes expandWidth {
-            to { width: 20vw; }
+            to { width: clamp(200px, 30vw, 400px); }
         }
 
-        /* Micro-animated badge */
+        /* Glowing Badge */
         .badge {
             display: inline-block;
-            padding: 16px 40px;
-            border-radius: 40px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: var(--primary);
-            font-size: 1.2rem;
+            padding: 18px 50px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            font-size: clamp(1rem, 1.2vw, 1.2rem);
             font-weight: 500;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
             overflow: hidden;
-            animation: slideUp 1.5s ease-out 1.5s forwards;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 20px rgba(255,255,255,0.1), inset 0 0 20px rgba(255,255,255,0.05);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto; /* Enable hover on badge */
             cursor: pointer;
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            backdrop-filter: blur(10px);
         }
 
         .badge:hover {
-            background: rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 35px -10px rgba(212, 175, 55, 0.5);
-            border-color: rgba(212, 175, 55, 0.8);
-        }
-
-        /* Shimmer effect inside badge */
-        .badge::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            50%, 100% { left: 200%; }
+            box-shadow: 0 0 40px rgba(0, 198, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+            border-color: rgba(0, 198, 255, 0.8);
+            letter-spacing: 6px;
         }
 
         @keyframes fadeIn {
+            from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* Responsive constraints for smaller devices */
-        @media (max-width: 1024px) {
-            h1 { font-size: 6vw; }
-            .subtitle { font-size: 2.5vw; }
-            p { font-size: 1.8vw; }
-            .divider { animation-name: expandWidthSmall; }
-            @keyframes expandWidthSmall { to { width: 30vw; } }
+        /* Tooltip hint */
+        .hint {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: pulseHint 3s infinite;
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 8vw; }
-            .subtitle { font-size: 4vw; }
-            p { font-size: 3vw; }
-            .badge { font-size: 1rem; padding: 12px 30px; }
-            .divider { animation-name: expandWidthMobile; }
-            @keyframes expandWidthMobile { to { width: 40vw; } }
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
 
-        @media (max-width: 480px) {
-            h1 { font-size: 10vw; }
-            .subtitle { font-size: 5vw; }
-            p { font-size: 4vw; }
-            .badge { font-size: 0.9rem; padding: 10px 24px; }
-            .divider { animation-name: expandWidthTiny; }
-            @keyframes expandWidthTiny { to { width: 50vw; } }
-        }
     </style>
 </head>
 <body>
-    <!-- Background Animations -->
-    <div class="bg-animation"></div>
-    <div class="particle p1"></div>
-    <div class="particle p2"></div>
-    <div class="particle p3"></div>
+    <!-- Background Nebulas -->
+    <div class="nebula n1"></div>
+    <div class="nebula n2"></div>
+    <div class="nebula n3"></div>
+    <div class="nebula n4"></div>
 
-    <!-- Main Content -->
-    <div class="full-page-container">
+    <!-- Starfield Canvas -->
+    <canvas id="universe"></canvas>
+
+    <!-- Content -->
+    <div class="content-container">
         <h1>Hello World!</h1>
         <div class="divider"></div>
         <div class="subtitle">Welcome to <span class="highlight">Be Well Family Salon</span>.</div>
         <p>Our web application is currently under development. We're creating something beautiful for you.</p>
         <div class="badge">Stay tuned!</div>
+        
+        <div class="hint">Click & Hold to Warp</div>
     </div>
+
+    <!-- Universe Animation Script -->
+    <script>
+        const canvas = document.getElementById('universe');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let stars = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = (Math.random() - 0.5) * width;
+                this.y = (Math.random() - 0.5) * height;
+                this.z = Math.random() * width;
+                this.pz = this.z;
+                // Add cosmic colors to stars
+                const colors = ['#ffffff', '#ffffff', '#ffe259', '#00c6ff', '#ff007f', '#8e2de2'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update(speed) {
+                this.z -= speed;
+                if (this.z < 1) {
+                    this.reset();
+                    this.z = width;
+                    this.pz = this.z;
+                }
+            }
+
+            draw() {
+                let sx = (this.x / this.z) * width + width / 2;
+                let sy = (this.y / this.z) * height + height / 2;
+
+                let px = (this.x / this.pz) * width + width / 2;
+                let py = (this.y / this.pz) * height + height / 2;
+
+                this.pz = this.z;
+
+                // Make closer stars thicker
+                let radius = width / this.z * 1.2;
+
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = radius;
+                ctx.moveTo(px, py);
+                ctx.lineTo(sx, sy);
+                ctx.stroke();
+            }
+        }
+
+        // Initialize stars
+        const numStars = 1000;
+        for (let i = 0; i < numStars; i++) {
+            stars.push(new Star());
+        }
+
+        let baseSpeed = 1.5;
+        let speed = baseSpeed;
+        let targetSpeed = baseSpeed;
+
+        function animate() {
+            // Dark fade to create light trails
+            ctx.fillStyle = 'rgba(3, 0, 8, 0.3)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Smooth speed transitions
+            speed += (targetSpeed - speed) * 0.05;
+
+            // Add dynamic wave to speed for organic feel
+            let time = Date.now() * 0.001;
+            let dynamicSpeed = speed + (targetSpeed === baseSpeed ? Math.sin(time) * 0.5 : 0);
+
+            stars.forEach(star => {
+                star.update(dynamicSpeed);
+                star.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Interactive Warp Speed on click
+        const container = document.querySelector('.content-container');
+        window.addEventListener('mousedown', () => targetSpeed = 25);
+        window.addEventListener('mouseup', () => targetSpeed = baseSpeed);
+        window.addEventListener('touchstart', () => targetSpeed = 25);
+        window.addEventListener('touchend', () => targetSpeed = baseSpeed);
+
+    </script>
 </body>
 </html>
