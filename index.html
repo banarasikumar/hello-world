@@ -3,37 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>Be Well Family Salon - Coming Soon</title>
     <style>
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
+
+        :root {
+            --primary: #d4af37; /* Elegant Gold */
+            --bg-color: #1a1a1a;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Inter', Roboto, sans-serif;
-            text-align: center;
-            padding: 20px;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Animated Background Gradient */
+        .bg-animation {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, rgba(26, 26, 26, 1) 50%);
+            animation: rotateBg 25s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            filter: blur(20px);
+            animation: float 8s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        .p1 { width: 150px; height: 150px; top: 10%; left: 15%; animation-delay: 0s; }
+        .p2 { width: 100px; height: 100px; bottom: 20%; right: 10%; animation-delay: 2s; }
+        .p3 { width: 80px; height: 80px; top: 40%; right: 25%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* Glassmorphism Card */
+        .card {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            max-width: 500px;
+            width: 85%;
+            text-align: center;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typography */
         h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin: 0 0 0.5rem 0;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+            opacity: 0;
         }
-        p {
+
+        .subtitle {
             font-size: 1.2rem;
-            color: #a0a0a0;
+            color: #ffffff;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1.5s ease-out 0.7s forwards;
+            opacity: 0;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1.5s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Decorative Line */
+        .divider {
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 0 auto 1.5rem;
+            animation: expandWidth 1s ease-out 1.2s forwards;
+        }
+
+        @keyframes expandWidth {
+            to { width: 120px; }
+        }
+
+        /* Micro-animated badge */
+        .badge {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .badge:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 25px -10px rgba(212, 175, 55, 0.4);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+
+        /* Shimmer effect inside badge */
+        .badge::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50%, 100% { left: 200%; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1.1rem; }
+            p { font-size: 0.95rem; }
+            .card { padding: 2.5rem 1.5rem; width: 90%; }
         }
     </style>
 </head>
 <body>
-    <div>
-        <h1>Hello World</h1>
-        <p>Welcome to your new mobile-friendly web page.</p>
+    <!-- Background Animations -->
+    <div class="bg-animation"></div>
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+
+    <!-- Main Content -->
+    <div class="card">
+        <h1>Hello World!</h1>
+        <div class="divider"></div>
+        <div class="subtitle">Welcome to <span class="highlight">Be Well Family Salon</span>.</div>
+        <p>Our web application is currently under development. We're creating something beautiful for you.</p>
+        <div class="badge">Stay tuned!</div>
     </div>
 </body>
 </html>
