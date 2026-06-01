@@ -22,9 +22,6 @@
             font-family: 'Poppins', sans-serif;
             background: var(--bg-color);
             color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             overflow: hidden;
             position: relative;
         }
@@ -56,74 +53,76 @@
             z-index: 0;
         }
 
-        .p1 { width: 150px; height: 150px; top: 10%; left: 15%; animation-delay: 0s; }
-        .p2 { width: 100px; height: 100px; bottom: 20%; right: 10%; animation-delay: 2s; }
-        .p3 { width: 80px; height: 80px; top: 40%; right: 25%; animation-delay: 4s; }
+        .p1 { width: 250px; height: 250px; top: 5%; left: 10%; animation-delay: 0s; }
+        .p2 { width: 180px; height: 180px; bottom: 15%; right: 5%; animation-delay: 2s; }
+        .p3 { width: 120px; height: 120px; top: 35%; right: 20%; animation-delay: 4s; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.1); }
+            50% { transform: translateY(-40px) scale(1.1); }
         }
 
-        /* Glassmorphism Card */
-        .card {
+        /* Full Page Glassmorphism Container */
+        .full-page-container {
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            max-width: 500px;
-            width: 85%;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
-            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            padding: 2rem;
+            box-sizing: border-box;
+            animation: fadeInContainer 1.5s ease-out forwards;
             opacity: 0;
-            transform: translateY(50px);
-            transition: transform 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        @keyframes fadeInContainer {
+            to { opacity: 1; }
         }
 
-        @keyframes slideUp {
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5vw; /* Scales with screen width */
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 1.5s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        @keyframes slideDown {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        /* Typography */
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            margin: 0 0 0.5rem 0;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeIn 1.5s ease-out 0.5s forwards;
-            opacity: 0;
-        }
-
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 2vw; /* Scales with screen width */
             color: #ffffff;
             font-weight: 400;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             animation: fadeIn 1.5s ease-out 0.7s forwards;
             opacity: 0;
         }
 
         p {
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 1.2vw;
+            line-height: 1.8;
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3.5rem;
+            max-width: 800px;
             animation: fadeIn 1.5s ease-out 0.9s forwards;
             opacity: 0;
         }
@@ -138,39 +137,47 @@
             width: 0;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            margin: 0 auto 1.5rem;
-            animation: expandWidth 1s ease-out 1.2s forwards;
+            margin: 0 auto 2rem;
+            animation: expandWidth 1.5s ease-out 1.2s forwards;
         }
 
         @keyframes expandWidth {
-            to { width: 120px; }
+            to { width: 20vw; }
         }
 
         /* Micro-animated badge */
         .badge {
             display: inline-block;
-            padding: 12px 30px;
-            border-radius: 30px;
+            padding: 16px 40px;
+            border-radius: 40px;
             background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.4);
             color: var(--primary);
-            font-size: 0.95rem;
+            font-size: 1.2rem;
             font-weight: 500;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             position: relative;
             overflow: hidden;
-            animation: fadeIn 1.5s ease-out 1.5s forwards;
+            animation: slideUp 1.5s ease-out 1.5s forwards;
             opacity: 0;
+            transform: translateY(30px);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
         }
 
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .badge:hover {
             background: rgba(212, 175, 55, 0.2);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 25px -10px rgba(212, 175, 55, 0.4);
-            border-color: rgba(212, 175, 55, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 35px -10px rgba(212, 175, 55, 0.5);
+            border-color: rgba(212, 175, 55, 0.8);
         }
 
         /* Shimmer effect inside badge */
@@ -181,7 +188,7 @@
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transform: skewX(-20deg);
             animation: shimmer 3s infinite;
         }
@@ -195,12 +202,31 @@
             to { opacity: 1; }
         }
 
-        /* Responsive */
+        /* Responsive constraints for smaller devices */
+        @media (max-width: 1024px) {
+            h1 { font-size: 6vw; }
+            .subtitle { font-size: 2.5vw; }
+            p { font-size: 1.8vw; }
+            .divider { animation-name: expandWidthSmall; }
+            @keyframes expandWidthSmall { to { width: 30vw; } }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 8vw; }
+            .subtitle { font-size: 4vw; }
+            p { font-size: 3vw; }
+            .badge { font-size: 1rem; padding: 12px 30px; }
+            .divider { animation-name: expandWidthMobile; }
+            @keyframes expandWidthMobile { to { width: 40vw; } }
+        }
+
         @media (max-width: 480px) {
-            h1 { font-size: 2.2rem; }
-            .subtitle { font-size: 1.1rem; }
-            p { font-size: 0.95rem; }
-            .card { padding: 2.5rem 1.5rem; width: 90%; }
+            h1 { font-size: 10vw; }
+            .subtitle { font-size: 5vw; }
+            p { font-size: 4vw; }
+            .badge { font-size: 0.9rem; padding: 10px 24px; }
+            .divider { animation-name: expandWidthTiny; }
+            @keyframes expandWidthTiny { to { width: 50vw; } }
         }
     </style>
 </head>
@@ -212,7 +238,7 @@
     <div class="particle p3"></div>
 
     <!-- Main Content -->
-    <div class="card">
+    <div class="full-page-container">
         <h1>Hello World!</h1>
         <div class="divider"></div>
         <div class="subtitle">Welcome to <span class="highlight">Be Well Family Salon</span>.</div>
