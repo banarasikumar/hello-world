@@ -340,8 +340,9 @@
             ctx.fillStyle = 'rgba(3, 0, 8, 0.3)';
             ctx.fillRect(0, 0, width, height);
 
-            // Extremely slow, micro acceleration for a very gentle speed increase
-            speed += (targetSpeed - speed) * 0.003; 
+            // Gentle acceleration when held, but fast deceleration when released
+            let smoothingFactor = isButtonPressed ? 0.003 : 0.04;
+            speed += (targetSpeed - speed) * smoothingFactor; 
 
             let time = Date.now() * 0.001;
             let dynamicSpeed = speed + (targetSpeed === baseSpeed ? Math.sin(time) * 0.5 : 0);
